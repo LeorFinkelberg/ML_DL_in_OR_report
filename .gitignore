@@ -1,0 +1,10 @@
+# === from latex ===
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.swp
+*.lof
+*.lot
+.DS_Store
