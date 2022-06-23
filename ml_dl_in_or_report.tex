@@ -225,6 +225,317 @@ original problem has 740251 variables (2666 bin, 147789 int, 0 impl, 589796 cont
 
 \subsection{Общие замечания по процедуре поиска решения на сценариях \emph{без} бинарных переменных}
 
+Метаконфигурация\footnote{Под метаконфигурацией понимается совокупность конфигурации решателя и набора эвристических приемов} SUH (Suppress Useless Heuristics) процедуры поиска решения сводится к приему подавления подгруппы первичных эвристик низкой эффективности.
+
+\remark{
+Решение получено без доменно-ориентированных эвристик, <<теплого>> старта и подбора параметров решателя
+}
+
+Конфигурация решателя SCIP для всех сценариев группы ИКП (без бинарных переменных) имеет вид
+\begin{lstlisting}[
+	title = {\sffamily scip.set. Сценарии группы ИКП без бинарных переменных},
+	style = bash,
+	numbers = none,
+	]
+	# критерии останова и перезапуска
+	limits/time = 7200
+	limits/gap = 0.02  # решение останавливается при зазоре <= 2%
+	
+	# подавление подгруппы первичных эвристик низкой эффективности
+	heuristics/farkasdiving/freq = -1
+	heuristics/feaspump/freq = -1
+	heuristics/randrounding/freq = -1
+	heuristics/shiftandpropagate/freq = -1
+	heuristics/shifting/freq = -1
+\end{lstlisting}
+
+Сводка результатов вычислительных экспериментов доступна по ссылке \url{https://docs.google.com/document/d/1V9fZLT9cXkbVQ5BvMCwzKrAiASZ2v4-01Z68jVBZUBU/edit?usp=sharing}.
+
+\subsubsection{Сценарий \texttt{F398266B} без бинарных переменных}
+
+\textbf{Статистика}\vspace*{1mm}
+
+Общее количество переменных: 774901
+
+Количество целочисленных переменных: 172449
+
+Количество бинарных переменных: 0
+
+Количество ограничений: 650263
+
+lp-файл: \url{https://disk.yandex.ru/d/o_eAb9475u5ueg}
+
+\vspace*{5mm}\textbf{Анализ решения}\vspace*{1mm}
+
+Пул решений задачи был найден с помощью следующих первичных эвристик:
+\begin{itemize}
+	\item INTSHIFING,
+	
+	\item RENS.
+\end{itemize}
+
+Файл решения задачи доступен по ссылке \url{https://disk.yandex.ru/d/URRnZ8soTaJEgQ}
+
+Файл статистической сводки доступен по ссылке \url{https://disk.yandex.ru/d/N2tfhj1N6RczzA}
+
+\vspace*{3mm}
+\textbf{Вывод по сценарию}: описанная выше метаконфигурация SUH приводит к решению задачи, которое оказывается по отношению к результату на доменно-ориентированных эвристиках (\verb|USE_RECALCULATION_ON_FLOW=true|) для последнего решения из пула допустимых целочисленных решений (ОС Linux Centos 7) на 1.063\% лучше в смысле целевой функции и на 10.20\% -- в смысле временных издержек (\pic{fig:summary_f398266b}).
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.6]{figures/summary_f398266b.pdf}
+	\caption{Сводка результатов анализа эффективности метаконфигурации SUH. \\Сценарий \texttt{f398266b} без бинарных переменных}\label{fig:summary_f398266b}
+\end{figure}
+
+\subsubsection{Сценарий \texttt{50197DF7} без бинарных переменных}
+
+\textbf{Статистика}\vspace*{1mm}
+
+Общее количество переменных: 718464
+
+Количество целочисленных переменных: 159332
+
+Количество бинарных переменных: 0
+
+Количество ограничений: 595797
+
+lp-файл: \url{https://disk.yandex.ru/d/KO_xj9dkgUdcog}
+
+\vspace*{5mm}\textbf{Анализ решения}\vspace*{1mm}
+
+Пул решений задачи был найден с помощью следующих первичных эвристик:
+\begin{itemize}
+	\item INTSHIFING,
+	
+	\item RENS.
+\end{itemize}
+
+Файл решения задачи доступен по ссылке \url{https://disk.yandex.ru/d/R4B1fkTx-nE3tg}
+
+Файл статистической сводки доступен по ссылке \url{https://disk.yandex.ru/d/BLvUmZ43vtMFKg}
+
+\vspace*{3mm}
+\textbf{Вывод по сценарию}: описанная выше метаконфигурация SUH приводит к решению задачи, которое оказывается по отношению к результату на доменно-ориентированных эвристиках (\verb|USE_RECALCULATION_ON_FLOW=true|) для последнего решения из пула допустимых целочисленных решений (ОС Linux Centos 7) на 1.25\% лучше в смысле целевой функции и на 46.43\% -- в смысле временных издержек (\pic{fig:summary_50197df7}).
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.6]{figures/summary_50197df7.pdf}
+	\caption{Сводка результатов анализа эффективности метаконфигурации SUH. \\Сценарий \texttt{50197df7} без бинарных переменных}\label{fig:summary_50197df7}
+\end{figure}
+
+\subsubsection{Сценарий \texttt{7FAC4231} без бинарных переменных}
+
+\textbf{Статистика}\vspace*{1mm}
+
+Общее количество переменных: 737585
+
+Количество целочисленных переменных: 147789
+
+Количество бинарных переменных: 0
+
+Количество ограничений: 540018
+
+lp-файл: \url{https://disk.yandex.ru/d/qiZAmraUNK1Peg}
+
+\vspace*{5mm}\textbf{Анализ решения}\vspace*{1mm}
+
+Пул решений задачи был найден с помощью следующих первичных эвристик:
+\begin{itemize}
+	\item INTSHIFING,
+	
+	\item RENS.
+\end{itemize}
+
+Файл решения задачи доступен по ссылке \url{https://disk.yandex.ru/d/20NeMuQ7NF_ccA}
+
+Файл статистической сводки доступен по ссылке \url{https://disk.yandex.ru/d/QxE0HoREHzgHQQ}
+
+\vspace*{3mm}
+\textbf{Вывод по сценарию}: описанная выше метаконфигурация SUH приводит к решению задачи, которое оказывается по отношению к результату на доменно-ориентированных эвристиках (\verb|USE_RECALCULATION_ON_FLOW=true|) для последнего решения из пула допустимых целочисленных решений (ОС Linux Centos 7) на 5.22\% лучше в смысле целевой функции и на 27.10\% -- в смысле временных издержек (\pic{fig:summary_7fac4231}).
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.6]{figures/summary_7fac4231.pdf}
+	\caption{Сводка результатов анализа эффективности метаконфигурации SUH. \\Сценарий \texttt{7fac4231} без бинарных переменных}\label{fig:summary_7fac4231}
+\end{figure}
+
+\subsubsection{Сценарий \texttt{CA485A55} без бинарных переменных}
+
+\textbf{Статистика}\vspace*{1mm}
+
+Общее количество переменных: 718601
+
+Количество целочисленных переменных: 140858
+
+Количество бинарных переменных: 0
+
+Количество ограничений: 514229
+
+lp-файл: \url{https://disk.yandex.ru/d/iSP6xrh4K_wHEQ}
+
+\vspace*{5mm}\textbf{Анализ решения}\vspace*{1mm}
+
+Пул решений задачи был найден с помощью следующих первичных эвристик:
+\begin{itemize}
+	\item INTSHIFING,
+	
+	\item RENS.
+\end{itemize}
+
+Файл решения задачи доступен по ссылке \url{https://disk.yandex.ru/d/_WzkmgoueNb2Bg}
+
+Файл статистической сводки доступен по ссылке \url{}
+
+\vspace*{3mm}
+\textbf{Вывод по сценарию}: описанная выше метаконфигурация SUH приводит к решению задачи, которое оказывается по отношению к результату на доменно-ориентированных эвристиках (\verb|USE_RECALCULATION_ON_FLOW=true|) для последнего решения из пула допустимых целочисленных решений (ОС Linux Centos 7) на 0.683\% лучше в смысле целевой функции и на 46.48\% -- в смысле временных издержек (\pic{fig:summary_ca485a55}).
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.6]{figures/summary_ca485a55.pdf}
+	\caption{Сводка результатов анализа эффективности метаконфигурации SUH. \\Сценарий \texttt{ca485a55} без бинарных переменных}\label{fig:summary_ca485a55}
+\end{figure}
+
+\subsubsection{Сценарий \texttt{276} без бинарных переменных}
+
+\textbf{Статистика}\vspace*{1mm}
+
+Общее количество переменных: 809224
+
+Количество целочисленных переменных: 162562
+
+Количество бинарных переменных: 0
+
+Количество ограничений: 602190
+
+lp-файл: \url{https://disk.yandex.ru/d/QaS5kd7VRZQ66A}
+
+\vspace*{5mm}\textbf{Анализ решения}\vspace*{1mm}
+
+Пул решений задачи был найден с помощью следующих первичных эвристик:
+\begin{itemize}
+	\item INTSHIFING,
+	
+	\item RENS.
+\end{itemize}
+
+Файл решения задачи доступен по ссылке \url{https://disk.yandex.ru/d/M2V88djiiGM5PA}
+
+Файл статистической сводки доступен по ссылке \url{}
+
+\vspace*{3mm}
+\textbf{Вывод по сценарию}: описанная выше метаконфигурация SUH приводит к решению задачи, которое оказывается по отношению к результату на доменно-ориентированных эвристиках (\verb|USE_RECALCULATION_ON_FLOW=true|) для последнего решения из пула допустимых целочисленных решений (ОС Linux Centos 7) на 3.67\% лучше в смысле целевой функции и на 51.56\% -- в смысле временных издержек (\pic{fig:summary_276}).
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.6]{figures/summary_276.pdf}
+	\caption{Сводка результатов анализа эффективности метаконфигурации SUH. \\Сценарий \texttt{276} без бинарных переменных}\label{fig:summary_276}
+\end{figure}
+
+\subsubsection{Сценарий \texttt{337} без бинарных переменных}
+
+\textbf{Статистика}\vspace*{1mm}
+
+Общее количество переменных: 859075
+
+Количество целочисленных переменных: 173622
+
+Количество бинарных переменных: 0
+
+Количество ограничений: 624327
+
+lp-файл: \url{https://disk.yandex.ru/d/keyQLAagsD7Sbw}
+
+\vspace*{5mm}\textbf{Анализ решения}\vspace*{1mm}
+
+Пул решений задачи был найден с помощью следующих первичных эвристик:
+\begin{itemize}
+	\item INTSHIFING,
+	
+	\item RENS.
+\end{itemize}
+
+Файл решения задачи доступен по ссылке \url{https://disk.yandex.ru/d/ZUIEo3dDq77FjA}
+
+Файл статистической сводки доступен по ссылке \url{}
+
+\vspace*{3mm}
+\textbf{Вывод по сценарию}: описанная выше метаконфигурация SUH приводит к решению задачи, которое оказывается по отношению к результату на доменно-ориентированных эвристиках (\verb|USE_RECALCULATION_ON_FLOW=true|) для последнего решения из пула допустимых целочисленных решений (ОС Linux Centos 7) на 22.12\% лучше в смысле целевой функции и на 18.32\% -- в смысле временных издержек (\pic{fig:summary_337}).
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.6]{figures/summary_337.pdf}
+	\caption{Сводка результатов анализа эффективности метаконфигурации SUH. \\Сценарий \texttt{337} без бинарных переменных}\label{fig:summary_337}
+\end{figure}
+
+\subsubsection{Сценарий \texttt{13D686AB} без бинарных переменных}
+
+\textbf{Статистика}\vspace*{1mm}
+
+Общее количество переменных: 786020
+
+Количество целочисленных переменных: 168857
+
+Количество бинарных переменных: 0
+
+Количество ограничений: 598414
+
+lp-файл: \url{https://disk.yandex.ru/d/3KkYKzNl3PjGdg}
+
+Пул решений задачи был найден с помощью следующих первичных эвристик:
+\begin{itemize}
+	\item INTSHIFING,
+	
+	\item RENS.
+\end{itemize}
+
+Файл решения задачи доступен по ссылке \url{https://disk.yandex.ru/d/EXylMeX6Ytz4tg}
+
+Файл статистической сводки доступен по ссылке \url{}
+
+\vspace*{3mm}
+\textbf{Вывод по сценарию}: описанная выше метаконфигурация SUH приводит к решению задачи, которое оказывается по отношению к результату на доменно-ориентированных эвристиках (\verb|USE_RECALCULATION_ON_FLOW=true|) для последнего решения из пула допустимых целочисленных решений (ОС Linux Centos 7) на 9.40\% лучше в смысле целевой функции и на 33.03\% -- в смысле временных издержек (\pic{fig:summary_13d686ab}).
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.6]{figures/summary_13d686ab.pdf}
+	\caption{Сводка результатов анализа эффективности метаконфигурации SUH. \\Сценарий \texttt{13d686ab} без бинарных переменных}\label{fig:summary_13d686ab}
+\end{figure}
+
+\subsubsection{Сценарий \texttt{A78CBEAD} без бинарных переменных}
+
+\textbf{Статистика}\vspace*{1mm}
+
+Общее количество переменных: 795400
+
+Количество целочисленных переменных: 180160
+
+Количество бинарных переменных: 0
+
+Количество ограничений: 658339
+
+lp-файл: \url{https://disk.yandex.ru/d/vTPPa1H3VFD7tA}
+
+Пул решений задачи был найден с помощью следующих первичных эвристик:
+\begin{itemize}
+	\item INTSHIFING,
+	
+	\item RENS.
+\end{itemize}
+
+Файл решения задачи доступен по ссылке \url{https://disk.yandex.ru/d/fARVcHb66ToHxQ}
+
+Файл статистической сводки доступен по ссылке \url{}
+
+\vspace*{3mm}
+\textbf{Вывод по сценарию}: описанная выше метаконфигурация SUH приводит к решению задачи, которое оказывается по отношению к результату на доменно-ориентированных эвристиках (\verb|USE_RECALCULATION_ON_FLOW=true|) для последнего решения из пула допустимых целочисленных решений (ОС Linux Centos 7) на 1.57\% лучше в смысле целевой функции и на 23.30\% -- в смысле временных издержек (\pic{fig:summary_a78cbead}).
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.6]{figures/summary_a78cbead.pdf}
+	\caption{Сводка результатов анализа эффективности метаконфигурации SUH. \\Сценарий \texttt{a78cbead} без бинарных переменных}\label{fig:summary_a78cbead}
+\end{figure}
+
+
 \subsection{Общие замечания по процедуре поиска решения на сценариях \emph{с} бинарными переменными}
 
 На ранних стадиях изучения проблемы высокоразмерных сценариев с бинарными переменными, поиск решения осуществлялся в семь шагов:
@@ -244,9 +555,9 @@ original problem has 740251 variables (2666 bin, 147789 int, 0 impl, 589796 cont
 	\item В решении, полученном на предыдущей итерации, зафиксировать \emph{нулевые бинарные} 0-bin и \emph{целочисленные} 0-int  \emph{переменные}; фиксацию подать на вход решателю.
 \end{enumerate}
 
-Описанная процедура поиска оказалась чувствительной к параметру \texttt{autorestartnodes}. Графическая интерпретация результатов вычислительных экспериментов с разверткой процедуры поиска верхней границы решения во времени приведена на рис.~\ref{fig:a78cbead_autorestartnodes_1_2_phase}, \ref{fig:a78cbead_autorestartnodes_3_phase}, \ref{fig:50197df7_autorestartnodes} и \ref{fig:7fac4231_autorestartnodes}.
+Процедура поиска оказалась чувствительной к параметру \texttt{autorestartnodes}. Графическая интерпретация результатов вычислительных экспериментов с разверткой процедуры поиска верхней границы решения во времени приведена на рис.~\ref{fig:a78cbead_autorestartnodes_1_2_phase}, \ref{fig:a78cbead_autorestartnodes_3_phase}, \ref{fig:50197df7_autorestartnodes} и \ref{fig:7fac4231_autorestartnodes}.
 
-Позже описанную процедуру удалось упростить и свести к следующей \emph{метаконфигурации}\footnote{Под метаконфигурацией понимается конфигурация решателя и набор эвристических приемов} {FZBIVSUHPB} (Fixed Zero Binary and Integer Variables, Suppress Useless Heuristics, Prefer Binary):
+Позже описанную процедуру удалось упростить и свести к следующей \emph{метаконфигурации} {FZBIVSUHPB} (Fixed Zero Binary and Integer Variables, Suppress Useless Heuristics, Prefer Binary):
 \begin{enumerate}
 	\item Подавить подгруппу первичных эвристик низкой эффективности,
 	
@@ -255,9 +566,9 @@ original problem has 740251 variables (2666 bin, 147789 int, 0 impl, 589796 cont
 	\item Зафиксировать \emph{нулевые бинарные} 0-bin и \emph{нулевые целочисленные} 0-int  \emph{переменные} в релаксированном решении (см. раздел~\ref{sec:bin_int_relax_fix}).
 \end{enumerate}
 
-Конфигурация решателя SCIP для всех сценариев группы ИКП имеет вид
+Конфигурация решателя SCIP для всех сценариев группы ИКП (с бинарными переменными) имеет вид
 \begin{lstlisting}[
-	title = {\sffamily scip.set},
+	title = {\sffamily scip.set. Сценарии группы ИКП с бинарными переменными},
 	style = bash,
 	numbers = none,
 	]
@@ -282,7 +593,7 @@ heuristics/shifting/freq = -1
 
 Сводка результатов вычислительных экспериментов доступна по ссылке \url{https://docs.google.com/document/d/1V9fZLT9cXkbVQ5BvMCwzKrAiASZ2v4-01Z68jVBZUBU/edit?usp=sharing}.
 
-Кодовая база решения доступна по ссылке \url{https://github.com/LeorFinkelberg/research_tool_wrapper_SCIP.git}
+Кодовая база решения доступна по ссылке \url{https://gitdp.zyfra.com/ds_and_math_users/ml-dl-in-operations-reaseearches.git}
 
 \subsubsection{Сценарий \texttt{A78CBEAD} с бинарными переменными}
 
