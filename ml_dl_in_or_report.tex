@@ -276,16 +276,42 @@ $ source .zshrc
 \end{enumerate}
 \vspace*{3mm}
 
-Для запуска решателя в MILP-режиме требуется только передать путь до \texttt{*.lp/*.mps}-файл
+\subsubsection{Приемы работы с решателем}
+
+Для запуска решателя в MILP-режиме требуется только передать путь до \texttt{*.lp/*.mps}-файла
 \begin{lstlisting}[
 style = bash,
 numbers = none
 ]
-$ ./bin/highs /path/to-model.lp
-$ ./bin/highs --help
+$ highs /path/to/model.lp
+$ highs --help
+\end{lstlisting}
+
+Для запуска решателя в режиме поиска релаксированного решения требуется параметру \verb|--solver| передать название метода (\texttt{simplex} или \texttt{ipm})
+\begin{lstlisting}[
+style = bash,
+numbers = none
+]
+# LP-задача будет решаться методом внутренней точки
+$ highs --solver ipm --model_file 50197df7_bin.lp
+\end{lstlisting} 
+
+Запуск решателя в параллельном MILP-режиме, с шагом снижения размерности задачи и ограничением по времени расчета будет выглядеть так
+\begin{lstlisting}[
+style = bash,
+numbers = none
+]
+$ highs \
+        --model_file 514.lp \
+        --presolve on \
+        --parallel on \
+        --time_limit 950 \ 
+        --solution_file highs_514.sol
 \end{lstlisting}
 
 
+
+\subsection{Решатель OPTIMUS (Scala)}
 
 
 \section{Сжатая сводка результатов вычислительных экспериментов}
