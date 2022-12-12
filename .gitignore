@@ -5,6 +5,7 @@
 *.synctex.gz
 *.toc
 *.swp
-*.lof
+*.lol
 *.lot
+*.lof
 .DS_Store

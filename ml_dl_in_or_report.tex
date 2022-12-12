@@ -287,7 +287,7 @@ $ highs /path/to/model.lp
 $ highs --help
 \end{lstlisting}
 
-Для запуска решателя в режиме поиска релаксированного решения требуется параметру \verb|--solver| передать название метода (\texttt{simplex} или \texttt{ipm})
+Для запуска решателя в режиме поиска релаксированного решения требуется параметру \verb|--solver| передать название метода (на текущий момент поддерживается только симплекс-метод \texttt{simplex} и метод внутренней точки \texttt{ipm})
 \begin{lstlisting}[
 style = bash,
 numbers = none
@@ -309,7 +309,176 @@ $ highs \
         --solution_file highs_514.sol
 \end{lstlisting}
 
+Список управляющих параметров решателя доступен на странице документации HiGHS для интерфейса Rust \url{https://www.maths.ed.ac.uk/hall/HiGHS/HighsOptions.html}
+\begin{lstlisting}[
+style = bash,
+numbers = none
+]
+HiGHS Options
+presolve
+Presolve option: "off", "choose" or "on"
+type: string, advanced: false, default: "choose"
+solver
+Solver option: "simplex", "choose" or "ipm"
+type: string, advanced: false, default: "choose"
+parallel
+Parallel option: "off", "choose" or "on"
+type: string, advanced: false, default: "choose"
+time_limit
+Time limit
+type: double, advanced: false, range: [0, inf], default: inf
+ranging
+Compute cost, bound, RHS and basic solution ranging: "off" or "on"
+type: string, advanced: false, default: "off"
+infinite_cost
+Limit on cost coefficient: values larger than this will be treated as infinite
+type: double, advanced: false, range: [1e+15, inf], default: 1e+20
+infinite_bound
+Limit on |constraint bound|: values larger than this will be treated as infinite
+type: double, advanced: false, range: [1e+15, inf], default: 1e+20
+small_matrix_value
+Lower limit on |matrix entries|: values smaller than this will be treated as zero
+type: double, advanced: false, range: [1e-12, inf], default: 1e-09
+large_matrix_value
+Upper limit on |matrix entries|: values larger than this will be treated as infinite
+type: double, advanced: false, range: [1, inf], default: 1e+15
+primal_feasibility_tolerance
+Primal feasibility tolerance
+type: double, advanced: false, range: [1e-10, inf], default: 1e-07
+dual_feasibility_tolerance
+Dual feasibility tolerance
+type: double, advanced: false, range: [1e-10, inf], default: 1e-07
+ipm_optimality_tolerance
+IPM optimality tolerance
+type: double, advanced: false, range: [1e-12, inf], default: 1e-08
+objective_bound
+Objective bound for termination
+type: double, advanced: false, range: [-inf, inf], default: inf
+objective_target
+Objective target for termination
+type: double, advanced: false, range: [-inf, inf], default: -inf
+random_seed
+random seed used in HiGHS
+type: HighsInt, advanced: false, range: {0, 2147483647}, default: 0
+threads
+number of threads used by HiGHS (0: automatic)
+type: HighsInt, advanced: false, range: {0, 2147483647}, default: 0
+highs_debug_level
+Debugging level in HiGHS
+type: HighsInt, advanced: false, range: {0, 3}, default: 0
+highs_analysis_level
+Analysis level in HiGHS
+type: HighsInt, advanced: false, range: {0, 63}, default: 0
+simplex_strategy
+Strategy for simplex solver
+type: HighsInt, advanced: false, range: {0, 4}, default: 1
+simplex_scale_strategy
+Simplex scaling strategy: off / choose / equilibration / forced equilibration / max value 0 / max value 1 (0/1/2/3/4/5)
+type: HighsInt, advanced: false, range: {0, 5}, default: 1
+simplex_crash_strategy
+Strategy for simplex crash: off / LTSSF / Bixby (0/1/2)
+type: HighsInt, advanced: false, range: {0, 9}, default: 0
+simplex_dual_edge_weight_strategy
+Strategy for simplex dual edge weights: Choose / Dantzig / Devex / Steepest Edge (-1/0/1/2)
+type: HighsInt, advanced: false, range: {-1, 3}, default: -1
+simplex_primal_edge_weight_strategy
+Strategy for simplex primal edge weights: Choose / Dantzig / Devex (-1/0/1)
+type: HighsInt, advanced: false, range: {-1, 1}, default: -1
+simplex_iteration_limit
+Iteration limit for simplex solver
+type: HighsInt, advanced: false, range: {0, 2147483647}, default: 2147483647
+simplex_update_limit
+Limit on the number of simplex UPDATE operations
+type: HighsInt, advanced: false, range: {0, 2147483647}, default: 5000
+ipm_iteration_limit
+Iteration limit for IPM solver
+type: HighsInt, advanced: false, range: {0, 2147483647}, default: 2147483647
+simplex_min_concurrency
+Minimum level of concurrency in parallel simplex
+type: HighsInt, advanced: false, range: {1, 8}, default: 1
+simplex_max_concurrency
+Maximum level of concurrency in parallel simplex
+type: HighsInt, advanced: false, range: {1, 8}, default: 8
+output_flag
+Enables or disables solver output
+type: bool, advanced: false, range: {false, true}, default: true
+log_to_console
+Enables or disables console logging
+type: bool, advanced: false, range: {false, true}, default: true
+solution_file
+Solution file
+type: string, advanced: false, default: ""
+log_file
+Log file
+type: string, advanced: false, default: "Highs.log"
+write_solution_to_file
+Write the primal and dual solution to a file
+type: bool, advanced: false, range: {false, true}, default: false
+write_solution_style
+Write the solution in style: 0=>Raw (computer-readable); 1=>Pretty (human-readable)
+type: HighsInt, advanced: false, range: {0, 1}, default: 0
+mip_detect_symmetry
+Whether symmetry should be detected
+type: bool, advanced: false, range: {false, true}, default: true
+mip_max_nodes
+MIP solver max number of nodes
+type: HighsInt, advanced: false, range: {0, 2147483647}, default: 2147483647
+mip_max_stall_nodes
+MIP solver max number of nodes where estimate is above cutoff bound
+type: HighsInt, advanced: false, range: {0, 2147483647}, default: 2147483647
+mip_max_leaves
+MIP solver max number of leave nodes
+type: HighsInt, advanced: false, range: {0, 2147483647}, default: 2147483647
+mip_lp_age_limit
+maximal age of dynamic LP rows before they are removed from the LP relaxation
+type: HighsInt, advanced: false, range: {0, 32767}, default: 10
+mip_pool_age_limit
+maximal age of rows in the cutpool before they are deleted
+type: HighsInt, advanced: false, range: {0, 1000}, default: 30
+mip_pool_soft_limit
+soft limit on the number of rows in the cutpool for dynamic age adjustment
+type: HighsInt, advanced: false, range: {1, 2147483647}, default: 10000
+mip_pscost_minreliable
+minimal number of observations before pseudo costs are considered reliable
+type: HighsInt, advanced: false, range: {0, 2147483647}, default: 8
+mip_report_level
+MIP solver reporting level
+type: HighsInt, advanced: false, range: {0, 2}, default: 1
+mip_feasibility_tolerance
+MIP feasibility tolerance
+type: double, advanced: false, range: [1e-10, inf], default: 1e-06
+mip_heuristic_effort
+effort spent for MIP heuristics
+type: double, advanced: false, range: [0, 1], default: 0.05
+\end{lstlisting}
 
+{\noindent\color{red}TODO: При запуске решатля в режиме поиска релаксированного решения процесс зависает, если заданы параметры, управляющие подробностью вывода
+\begin{itemize}
+	\item \texttt{highs\_debug\_level = 2},
+	
+	\item  \texttt{mip\_report\_level = 2}
+\end{itemize}
+}
+
+Задать значения управлющих параметров можно в set-файле HiGHS
+\begin{lstlisting}[
+title = {\sffamily highs.set},
+style = bash,
+numbers = none
+]
+time_limit = 7200
+simplex_iteration_limit = 10000
+ipm_iteration_limit = 5000
+...
+\end{lstlisting}
+
+Теперь для запуска решателя в специфицрованном режиме остается только передать путь до файла настроек параметру \verb|--options_file|
+\begin{lstlisting}[
+style = bash,
+numbers = none	
+]
+$ highs --model_file 496.lpl --options_file highs.set
+\end{lstlisting}
 
 \subsection{Решатель OPTIMUS (Scala)}
 
@@ -833,8 +1002,10 @@ heuristics/veclendiving/freq = -1
 
 \begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.58]{figures/1664182533_1587787.pdf}
-	\caption{ Сводка результатов вычислительных экспериментов \\на сценарии группы СОП \texttt{1664182533\_1587787.lp} }\label{fig:1664182533_1587787}
+%	\begin{mdframed}[backgroundcolor=gray!25,linecolor=gray!25]
+	    \includegraphics[scale=0.535]{figures/1664182533_1587787.pdf}
+	    \caption{ Сводка результатов вычислительных экспериментов \\на сценарии группы СОП \texttt{1664182533\_1587787.lp} }\label{fig:1664182533_1587787}
+%	\end{mdframed}
 \end{figure}
 
 
@@ -1492,7 +1663,7 @@ SCIP+ML(0.10)f -- решение, полученное с помощью анс�
 			SCIP+ML(0.10)e & 1.51 {\color{blue} $\ +69.76 $\%} & 5.904120 {\color{blue} $\ +9.678 $\%} 
 		\end{tabular}\label{tab:496_wo_bins}
 	\end{table}
-\vspace{-5mm}\hspace{30mm}\small{* -- опорное решение}
+\vspace*{-5mm}\hspace{30mm}\small{* -- опорное решение}
 \hspace{15mm}\small{** -- решение было прервано}
 }
 
