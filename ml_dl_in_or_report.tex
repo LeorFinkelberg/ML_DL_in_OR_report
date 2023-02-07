@@ -54,6 +54,18 @@ $ conda install -c conda-forge pyscipopt=3.4.0
 
 \subsubsection{Приемы работы с решателем SCIP в интерактивной оболочке \texttt{scip}}
 
+Для того чтобы сделать логи более подробными следует включить следующие строки в конфигурационный файл SCIP
+\begin{lstlisting}[
+title = {\sffamily scip.set},
+style = bash,
+numbers = none
+]
+...
+display/lpinfo = TRUE
+display/ninfeasleaves/active = 2
+display/allviols = TRUE
+\end{lstlisting}
+
 \subsubsection{Приемы работы с решателем SCIP через обертку PySCIPOpt}
 
 Работа над задачей начинается с создания пустого экземпляра модели
