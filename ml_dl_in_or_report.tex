@@ -200,6 +200,33 @@ model.readParams("./scip.set")
 
 С расшифровкой параметров таблицы логов (например, \verb|strbr| или \verb|mdpt|) можно познакомится на странице проекта GAMS \url{https://www.gams.com/latest/docs/S_SCIP.html}.
 
+Получить коллекцию ограничений в виде списка словарей, содержащих имя переменной и коэффициент при ней в ограничении, можно так
+\begin{lstlisting}[
+style = ironpython,
+numbers = none
+]
+model = pyscipopt.Model()
+model.readProblem("...")
+
+all_conss: t.Iterable[dict] = [model.getValsLinear(cons) for cons in model.getConss()]
+"""
+all_conss = [
+    {  # cons-1
+    	'cm_or_0_1_1': -1.0,
+    	'cooked_mass_0_1_1': 1.0,
+    	'passport_0_1_1': -1.0
+    },
+    {  # cons-2
+    	'cm_or_0_1_10': -1.0,
+    	'cm_or_0_1_9': 1.0,
+    	'cooked_mass_0_1_10': 1.0,
+    	'passport_0_1_10': -1.0
+    },
+    ...
+]
+"""
+\end{lstlisting}
+
 
 
 \subsection{Декомпозиционный решатель GCG. Общие сведения}
