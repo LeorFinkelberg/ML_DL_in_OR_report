@@ -764,10 +764,46 @@ model.optimize()
 	
 	\item \verb|var_lp_sol_default_presolve|: значения переменных в релаксированном решении, полученном после пресолвинга с настройками по умолчанию,
 	
-	\item \verb|var_ub_global_default_presolve|: верхние глобальные границы переменных, полученные после пресолвинга с настройками по умолчанию,
-	
 	\item \verb|n_vars_after_presolving_default_presolve|: число переменных после пресолвинга с настройками по умолчанию.
+	
+	\item \verb|continuous_context_types|: число вещественных переменных, входящих в те же ограничения, что и рассматриваемая переменная,
+	
+	\item \verb|binary_context_types|: число бинарных переменных, входящих в те же ограничения, что и рассматриваемая переменная,
+	
+	\item \verb|integer_context_types|: число целочисленных переменных, входящих в те же ограничения, что и рассматриваемая переменная,
+	
+	\item \verb|var_mean_relax_context|: значения релаксированного решения, усредненные по переменным, входящим в те же ограничения, что и рассматриваемая переменная.
 \end{enumerate}
+
+Лучший набор признаков, упорядоченный по убыванию пермутационной важности:
+\begin{enumerate}
+	\item \verb|var_lp_sol_default_presolve|,
+	
+	\item \verb|var_ub_global_relax|,
+	
+	\item \verb|relax_sol|,
+	
+	\item \verb|integer_context_types|,
+	
+	\item \verb|var_mean_relax_context|,
+	
+	\item \verb|binary_context_types|.
+\end{enumerate}
+
+Метрики качества (на валидационном поднаборе данных):
+\begin{itemize}
+	\item гармоическое среднее $ F_1 $: 0.718,
+	\item полнота: 0.711,
+	\item точность: 0.725,
+	\item площадь под ROC-кривой: 0.720 (см. \pic{fig:roc_auc_zero_shot})
+\end{itemize}
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=1.0]{figures/roc_auc_zero_shot_automl.png}
+	\caption{ ROC-кривая задачи обнаружения <<квазинулевых>> переменных }\label{fig:roc_auc_zero_shot}
+\end{figure}
+
 
 
 
