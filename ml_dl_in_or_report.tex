@@ -775,35 +775,109 @@ model.optimize()
 	\item \verb|var_mean_relax_context|: значения релаксированного решения, усредненные по переменным, входящим в те же ограничения, что и рассматриваемая переменная.
 \end{enumerate}
 
-Лучший набор признаков, упорядоченный по убыванию пермутационной важности:
+\subsubsection{Анализ важности признаков}
+
+Лучший набор признаков, упорядоченный по убыванию \emph{пермутационной важности}, найденной с помощью модели случайного леса (\verb|n_estimators=450|, \verb|max_features=0.25|, \verb|max_depth=8|)\footnote{На обучающем поднаборе: гармоническое среденее: 0.687, полнота: 0.6370, точность: 0.745, площадь под ROC-кривой: 0.709, на валидационном поднаборе: гармоническое среднее: 0.670, полнота: 0.628, точность: 0.720, площадь под ROC-кривой: 0.692}:
 \begin{enumerate}
-	\item \verb|var_lp_sol_default_presolve|,
+	\item \verb|integer_context_after_presolving|,
 	
-	\item \verb|var_ub_global_relax|,
+	\item \verb|var_ub_global_after_presolving|,
 	
 	\item \verb|relax_sol|,
 	
-	\item \verb|integer_context_types|,
+	\item \verb|var_ub_global_relax|,
 	
-	\item \verb|var_mean_relax_context|,
-	
-	\item \verb|binary_context_types|.
+	\item \verb|var_context_mean_relax_after_presolving|.
 \end{enumerate}
 
-Метрики качества (на валидационном поднаборе данных):
-\begin{itemize}
-	\item гармоическое среднее $ F_1 $: 0.718,
-	\item полнота: 0.711,
-	\item точность: 0.725,
-	\item площадь под ROC-кривой: 0.720 (см. \pic{fig:roc_auc_zero_shot})
-\end{itemize}
+Важность признаков \emph{по Шепли}, найденная с помщью Zero-shot AutoML LIghtGBM библиотеки FLAML (\verb|boostring_type="gbdt"|, \verb|objective="binary"|, \verb|max_depth=7|) , приведена на \pic{fig:shap_imprt}.
 
-\begin{figure}[!h]
+\begin{lstlisting}[
+style = ironpython,
+numbers = none
+]
+clf_zero_shot = default.LGBMClassifier(
+	boosting_type="gbdt",
+	objective="binary",
+	max_depth=7,  # приходится помочь; в противном случае сильно переобучается
+)
+
+clf_zero_shot.fit(X_sub_train, y_sub_train)
+
+explainer = shap.TreeExplainer(clf_zero_shot)
+shap_values_train = explainer.shap_values(X_sub_train)
+shap_values_val = explainer.shap_values(X_val)
+
+shap.summary_plot(shap_values_train[1], X_sub_train)
+\end{lstlisting}
+
+Как показывает глобальная интерпретация (\pic{fig:shap_imprt}) б\emph{о}льшие значения верхней границы после пресолвинга (признак \texttt{var\_ub\_global\_after\_presolving}) отвечают <<аномальным>> переменным. То есть другими словами чем выше верхняя граница нулевой бинарной или целочисленной переменной, тем вероятнее она примет ненулевое значение в целочисленном решении. Напротив, меньшие значения признака \texttt{integer\_context\_after\_presolving} указывают на <<аномальность>> переменной -- в среднем чем меньше целочисленных переменных в контексте рассматриваемой переменной, тем выше вероятность, что она окажется аномальной.
+
+Ниже приводятся графики частичной зависимости признаков. График частичной зависимости признака \verb|relax_sol| (\pic{fig:part_depend_relax_sol}) показывает, что в целом низкие значения переменной в релаксированном решении отвечают <<штатным>> переменным, но есть небольшой кластер точек, которые даже если и принимают нулевое или близкое к нулю значение в релаксированном решении, все-таки оказываются аномальными. Это и есть искомые <<квазинулевые>> переменные. Здесь есть неоднозначность. Среди <<штатшных>> бинарных и целочисленных переменных чаще оказываются такие, в контексте которых мало целочисленных переменных, но есть и такие в контексте которых целочисленные переменные встречаются часто.
+
+\begin{lstlisting}[
+style = ironpython,
+numbers = none	
+]
+shap.dependence_plot("feature_name", shap_values_val[1], X_val)
+\end{lstlisting}
+
+\begin{figure}[h]
 	\centering
-	\includegraphics[scale=1.0]{figures/roc_auc_zero_shot_automl.png}
-	\caption{ ROC-кривая задачи обнаружения <<квазинулевых>> переменных }\label{fig:roc_auc_zero_shot}
+	\includegraphics[scale=1.0]{figures/shap_imprt.png}
+	\caption{ Важность признаков по Шепли }\label{fig:shap_imprt}
 \end{figure}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.90]{figures/part_depend_var_ub_global.png}
+	\caption{ График частичной зависимости признака \texttt{var\_ub\_global\_after\_presolving} \\от признака \texttt{integer\_context\_after\_presolving}  }\label{fig:part_depend_var_ub_global}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.90]{figures/part_depend_integer_context.png}
+	\caption{ График частичной зависимости признака \texttt{integer\_context\_after\_presolving} \\от признака \texttt{var\_context\_mean\_relax\_after\_presolving} }\label{fig:part_depend_integer_context}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.90]{figures/part_depend_relax_sol.png}
+	\caption{ График частичной зависимости признака \texttt{relax\_sol} \\от признака \texttt{var\_ub\_global\_after\_presolving} }\label{fig:part_depend_relax_sol}
+\end{figure}
+
+Пострим локальную интерпретацию на экземплярах. Для проверки вычислим значения Шепли с помощью встроенных средств LightGBM и с помощью библиотеки SHAP. Важно помнить, что в отличие от библиотеки SHAP, метод \verb|predict| с флагом \verb|predict_contib=True| библиотеки LightGBM возвращает матрицу размером $ n\_samples \times (n\_features + 1) $, а не $ n\_samples \times n\_features $. Последний столбец в матрице это ожидаемое значение (expected value\footnote{Оно же  на графиках локальной интерпретации библиотеки SHAP обозначается как <<base value>>}) \url{https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html#lightgbm.LGBMClassifier}.
+\begin{lstlisting}[
+style = ironpython,
+numbers = none
+]
+clf_zero_shot.predict(
+    X_val,
+    pred_contrib=True
+)[:, :-1].sum(axis=1)[SAMPLE_IDX]  # -0.49065584326131984
+
+shap_values_val[1][SAMPLE_IDX, :].sum()  # -0.49065584326131984
+\end{lstlisting}
+
+И, наконец, строим локальную интерпретацию для первого экземпляра валидационного поднабора (см. \pic{fig:local_interpr_shap})
+\begin{lstlisting}[
+style = ironpython,
+numbers = none
+]
+SAMPLE_IDX = 0
+
+shap.force_plot(
+    explainer.expected_value[1],
+    shap_values_val[1][SAMPLE_IDX, :],
+    X_val.iloc[SAMPLE_IDX, :]
+)
+\end{lstlisting}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.90]{figures/local_interpr_shap.png}
+	\caption{ Локальная интерпретация для первого экземпляра валидационного поднабора }\label{fig:local_interpr_shap}
+\end{figure}
 
 
 
