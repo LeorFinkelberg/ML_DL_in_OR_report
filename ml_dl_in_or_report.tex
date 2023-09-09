@@ -650,6 +650,33 @@ $ highs --model_file 496.lpl --options_file highs.set
 
 \subsection{Решатель OPTIMUS (Scala)}
 
+\section{Концепт метрики сложности MILP-проблемы}
+
+Метрику приделагается вычисляеть следующим образом
+
+\begin{align*}
+C &= \tau^{ (-1)^{ 1 - [\,\tau > 1\,] } } \cdot \dfrac{ \#ints_{\text{before}} }{\#zero\_ints_{\text{relax}}} \cdot \dfrac{ \#conss_{\text{after}} }{ \#conss_{\text{before}} } \cdot \dfrac{ \gamma_{\text{after}} }{ \gamma_{\text{before}} }, \\ \tau &= \dfrac{ \tau_{\text{relax}} }{ \tau_{\text{presolve}} },
+\end{align*}
+где
+
+\noindent$ [\,\cdot\,] $ -- скобки Айверсона,
+
+\noindent$ \tau_{\text{relax}} $ -- временн\emph{ы}е издержки на поиск релаксированного решения,
+
+\noindent$ \tau_{\text{presolve}} $ -- временн\emph{ы}е издержки на пресолвинг,
+
+\noindent$ \#ints_{\text{before}} $ -- количество целочисленных переменных до пресолвинга,
+
+\noindent$ \#zero\_ints_{\text{relax}} $ -- количество нулевых целочисленных переменных в релаксированном решении,
+
+\noindent$ \#conss_{\text{before}} $ -- количество ограничений до пресолвинга,
+
+\noindent$ \#conss_{\text{after}} $ -- количество ограничений после пресолвинга,
+
+\noindent$ \gamma_{\text{before}} $ -- плотность ненулевых коэффициентов в матрице ограничений до пресолвинга,
+
+\noindent$ \gamma_{\text{after}} $ -- плотность ненулевых коэффициентов в матрице ограничений после пресолвинга.
+
 
 \section{Сжатая сводка результатов вычислительных экспериментов}
 
