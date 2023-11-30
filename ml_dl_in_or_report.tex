@@ -162,6 +162,15 @@ $ conda install -c conda-forge pyscipopt
 $ conda install -c conda-forge pyscipopt=3.4.0
 \end{lstlisting}
 
+В ноябре 2023 вышла новая исправленная версия SCIP 8.1.0, но она показывает низкую производительность относительно версии SCIP 8.0.3, поэтому рекомендуется ставить отдельно SCIP и отдельно PySCIPOpt
+\begin{lstlisting}[
+style = bash,
+numbers = none
+]
+$ conda install -c conda-forge scip==8.0.3 
+$ conda install -c conda-forge pyscipopt
+\end{lstlisting}
+
 \subsubsection{Приемы работы с решателем SCIP в интерактивной оболочке \texttt{scip}}
 
 Для того чтобы сделать логи более подробными следует включить следующие строки в конфигурационный файл SCIP
